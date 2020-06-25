@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 
 class MyAdapter(private val drawableResIds: List<Int>) :
@@ -18,18 +19,23 @@ class MyAdapter(private val drawableResIds: List<Int>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // #1
-        holder.imageView.setImageResource(drawableResIds[position])
+        // #1: lagging
+//        holder.imageView.setImageResource(drawableResIds[position])
 
-        // #2
+        // #2: lagging
 //        holder.imageView.setImageDrawable(
 //            ContextCompat.getDrawable(holder.imageView.context, dataSet[position])
 //        )
 
-        // #3
+        // #3: lagging
 //        holder.imageView.setImageBitmap(
 //            BitmapFactory.decodeResource(holder.imageView.context.resources, dataSet[position])
 //        )
+
+        // #4: smooth
+        Glide.with(holder.imageView.context)
+            .load(drawableResIds[position])
+            .into(holder.imageView);
     }
 
     override fun getItemCount() = drawableResIds.size
